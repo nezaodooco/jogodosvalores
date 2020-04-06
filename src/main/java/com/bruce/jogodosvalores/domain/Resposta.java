@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.bruce.jogodosvalores.domain.enums.Validacao;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -22,10 +23,7 @@ public class Resposta implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
-	private enum validacao{
-		V, F;
-	}
+	private Integer validacao;
 	
 	@JsonBackReference
 	@ManyToMany
@@ -38,10 +36,11 @@ public class Resposta implements Serializable {
 	public Resposta() {
 	}
 
-	public Resposta(Integer id, String nome ) {
+	public Resposta(Integer id, String nome, Validacao validacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.validacao = validacao.getCod();
 	}
 
 	public Integer getId() {
@@ -68,6 +67,14 @@ public class Resposta implements Serializable {
 		this.perguntas = perguntas;
 	}
 
+	public Validacao getValidacao() {
+		return Validacao.toEnum(validacao);
+	}
+
+	public void setValidacao(Validacao validacao) {
+		this.validacao = validacao.getCod();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,4 +99,5 @@ public class Resposta implements Serializable {
 			return false;
 		return true;
 	}
+
 }
